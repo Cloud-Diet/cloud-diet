@@ -1,0 +1,11 @@
+services:
+  cloud-diet:
+    build: .
+    image: cloud-diet:latest
+    container_name: cloud-diet
+    env_file:
+      - .env
+    volumes:
+      - ./outputs:/app/outputs
+      - ./configs:/app/configs
+    restart: "no"

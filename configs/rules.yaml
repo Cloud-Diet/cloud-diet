@@ -1,0 +1,17 @@
+ec2:
+  cpu_avg_threshold: 10
+  cpu_max_threshold: 30
+  analysis_days: 14
+
+ebs:
+  detached_days_threshold: 14
+
+notification:
+  send_empty_report: true
+  max_findings_per_report: 20
+
+llm:
+  enabled: true
+  max_sentences: 5
+  language: ko
+

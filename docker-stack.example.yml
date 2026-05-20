@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  cloud-diet:
+    image: cloud-diet:latest
+    environment:
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION:-ap-northeast-2}
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-4o-mini}
+      LLM_ENABLED: ${LLM_ENABLED:-true}
+      NOTIFIER: ${NOTIFIER:-discord}
+      DISCORD_WEBHOOK_URL: ${DISCORD_WEBHOOK_URL}
+      SLACK_WEBHOOK_URL: ${SLACK_WEBHOOK_URL}
+      ANALYSIS_DAYS: ${ANALYSIS_DAYS:-14}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      OUTPUT_DIR: /app/outputs
+      RULE_CONFIG_PATH: /app/configs/rules.yaml
+    volumes:
+      - cloud-diet-outputs:/app/outputs
+    deploy:
+      restart_policy:
+        condition: none
+
+volumes:
+  cloud-diet-outputs:
+

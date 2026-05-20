@@ -1,0 +1,11 @@
+.env
+.env.*
+!.env.example
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+outputs/*
+!outputs/.gitkeep
+docs/Cloud_Diet_Docker_설계도.docx

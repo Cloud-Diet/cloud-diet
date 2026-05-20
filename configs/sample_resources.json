@@ -1,0 +1,35 @@
+[
+  {
+    "resource_type": "EC2",
+    "resource_id": "i-1234567890abcdef0",
+    "name": "api-server-prod",
+    "region": "ap-northeast-2",
+    "instance_type": "t3.large",
+    "state": "running",
+    "launch_time": "2026-05-01T10:00:00+09:00",
+    "cpu_avg_14d": 7.8,
+    "cpu_max_14d": 21.4,
+    "memory_avg_14d": null,
+    "estimated_monthly_cost": null,
+    "tags": {
+      "Name": "api-server-prod",
+      "Env": "prod"
+    }
+  },
+  {
+    "resource_type": "EBS",
+    "resource_id": "vol-1234567890abcdef0",
+    "region": "ap-northeast-2",
+    "state": "available",
+    "size_gb": 100,
+    "volume_type": "gp3",
+    "create_time": "2026-04-20T10:00:00+09:00",
+    "attached_instance_id": null,
+    "detached_days": 18,
+    "estimated_monthly_cost": null,
+    "tags": {
+      "Name": "old-test-volume"
+    }
+  }
+]
+
