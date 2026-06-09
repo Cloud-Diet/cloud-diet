@@ -29,6 +29,7 @@ def normalize_ec2_instances(
     normalized: list[dict[str, Any]] = []
     for instance in ec2_instances:
         tags = _tags_to_dict(instance.get("Tags", []))
+        metadata = _tag_metadata(tags)
         normalized.append(
             {
                 "resource_type": "EC2",
@@ -42,6 +43,7 @@ def normalize_ec2_instances(
                 "cpu_max_14d": None,
                 "memory_avg_14d": None,
                 "estimated_monthly_cost": None,
+                **metadata,
                 "tags": tags,
             }
         )
@@ -56,6 +58,7 @@ def normalize_ebs_volumes(
     normalized: list[dict[str, Any]] = []
     for volume in ebs_volumes:
         tags = _tags_to_dict(volume.get("Tags", []))
+        metadata = _tag_metadata(tags)
         attachments = volume.get("Attachments", [])
         attached_instance_id = attachments[0].get("InstanceId") if attachments else None
         create_time = volume.get("CreateTime")
@@ -72,6 +75,7 @@ def normalize_ebs_volumes(
                 "attached_instance_id": attached_instance_id,
                 "detached_days": _detached_days(volume.get("State"), create_time),
                 "estimated_monthly_cost": None,
+                **metadata,
                 "tags": tags,
             }
         )
@@ -86,6 +90,24 @@ def _tags_to_dict(tags: list[dict[str, Any]]) -> dict[str, str]:
         for tag in tags
         if tag.get("Key") is not None and tag.get("Value") is not None
     }
+
+
+def _tag_metadata(tags: dict[str, str]) -> dict[str, str]:
+    """Extract commonly used ownership and environment tags."""
+
+    return {
+        "owner": _first_tag(tags, ("Owner", "owner", "Team", "team")),
+        "project": _first_tag(tags, ("Project", "project")),
+        "environment": _first_tag(tags, ("Environment", "environment", "Env", "env")),
+        "service": _first_tag(tags, ("Service", "service", "Name")),
+    }
+
+
+def _first_tag(tags: dict[str, str], candidates: tuple[str, ...]) -> str:
+    for key in candidates:
+        if tags.get(key):
+            return tags[key]
+    return "unknown"
 
 
 def _isoformat(value: Any) -> str | None:
@@ -110,4 +132,3 @@ def _detached_days(state: str | None, create_time: Any) -> int | None:
         create_time = create_time.replace(tzinfo=timezone.utc)
     delta = datetime.now(timezone.utc) - create_time.astimezone(timezone.utc)
     return max(delta.days, 0)
-

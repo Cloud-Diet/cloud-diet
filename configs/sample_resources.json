@@ -1,35 +1,158 @@
 [
   {
     "resource_type": "EC2",
-    "resource_id": "i-1234567890abcdef0",
-    "name": "api-server-prod",
+    "resource_id": "i-dev-low-001",
+    "name": "api-dev",
     "region": "ap-northeast-2",
     "instance_type": "t3.large",
     "state": "running",
     "launch_time": "2026-05-01T10:00:00+09:00",
+    "cpu_avg_14d": 4.2,
+    "cpu_max_14d": 18.5,
+    "memory_avg_14d": null,
+    "estimated_monthly_cost": null,
+    "owner": "backend-team",
+    "project": "capstone",
+    "environment": "dev",
+    "service": "api-dev",
+    "tags": {
+      "Name": "api-dev",
+      "Owner": "backend-team",
+      "Project": "capstone",
+      "Environment": "dev",
+      "Service": "api"
+    }
+  },
+  {
+    "resource_type": "EC2",
+    "resource_id": "i-burst-002",
+    "name": "batch-staging",
+    "region": "ap-northeast-2",
+    "instance_type": "t3.medium",
+    "state": "running",
+    "launch_time": "2026-04-10T10:00:00+09:00",
+    "cpu_avg_14d": 8.5,
+    "cpu_max_14d": 72.1,
+    "memory_avg_14d": null,
+    "estimated_monthly_cost": null,
+    "owner": "data-team",
+    "project": "capstone",
+    "environment": "staging",
+    "service": "batch-staging",
+    "tags": {
+      "Name": "batch-staging",
+      "Team": "data-team",
+      "Project": "capstone",
+      "env": "staging"
+    }
+  },
+  {
+    "resource_type": "EC2",
+    "resource_id": "i-prod-low-003",
+    "name": "api-server-prod",
+    "region": "ap-northeast-2",
+    "instance_type": "t3.large",
+    "state": "running",
+    "launch_time": "2026-03-01T10:00:00+09:00",
     "cpu_avg_14d": 7.8,
     "cpu_max_14d": 21.4,
     "memory_avg_14d": null,
     "estimated_monthly_cost": null,
+    "owner": "platform-team",
+    "project": "commerce",
+    "environment": "prod",
+    "service": "api-server-prod",
     "tags": {
       "Name": "api-server-prod",
+      "Owner": "platform-team",
+      "Project": "commerce",
       "Env": "prod"
     }
   },
   {
+    "resource_type": "EC2",
+    "resource_id": "i-unsupported-004",
+    "name": "legacy-test",
+    "region": "ap-northeast-2",
+    "instance_type": "m5.large",
+    "state": "running",
+    "launch_time": "2026-05-20T10:00:00+09:00",
+    "cpu_avg_14d": 6.1,
+    "cpu_max_14d": 19.3,
+    "memory_avg_14d": null,
+    "estimated_monthly_cost": null,
+    "owner": "unknown",
+    "project": "unknown",
+    "environment": "test",
+    "service": "legacy-test",
+    "tags": {
+      "Name": "legacy-test",
+      "Environment": "test"
+    }
+  },
+  {
     "resource_type": "EBS",
-    "resource_id": "vol-1234567890abcdef0",
+    "resource_id": "vol-unused-001",
     "region": "ap-northeast-2",
     "state": "available",
     "size_gb": 100,
     "volume_type": "gp3",
     "create_time": "2026-04-20T10:00:00+09:00",
     "attached_instance_id": null,
-    "detached_days": 18,
+    "detached_days": 45,
     "estimated_monthly_cost": null,
+    "owner": "backend-team",
+    "project": "capstone",
+    "environment": "dev",
+    "service": "old-test-volume",
     "tags": {
-      "Name": "old-test-volume"
+      "Name": "old-test-volume",
+      "Owner": "backend-team",
+      "Project": "capstone",
+      "Environment": "dev"
+    }
+  },
+  {
+    "resource_type": "EBS",
+    "resource_id": "vol-backup-002",
+    "region": "ap-northeast-2",
+    "state": "available",
+    "size_gb": 500,
+    "volume_type": "gp2",
+    "create_time": "2026-03-20T10:00:00+09:00",
+    "attached_instance_id": null,
+    "detached_days": 80,
+    "estimated_monthly_cost": null,
+    "owner": "ops-team",
+    "project": "commerce",
+    "environment": "prod",
+    "service": "critical-backup",
+    "tags": {
+      "Name": "critical-backup",
+      "Owner": "ops-team",
+      "Project": "commerce",
+      "Env": "prod",
+      "Purpose": "backup"
+    }
+  },
+  {
+    "resource_type": "EBS",
+    "resource_id": "vol-unknown-price-003",
+    "region": "ap-northeast-2",
+    "state": "available",
+    "size_gb": 20,
+    "volume_type": "io2",
+    "create_time": "2026-04-01T10:00:00+09:00",
+    "attached_instance_id": null,
+    "detached_days": 60,
+    "estimated_monthly_cost": null,
+    "owner": "unknown",
+    "project": "unknown",
+    "environment": "dev",
+    "service": "unknown-price-volume",
+    "tags": {
+      "Name": "unknown-price-volume",
+      "Environment": "dev"
     }
   }
 ]
-

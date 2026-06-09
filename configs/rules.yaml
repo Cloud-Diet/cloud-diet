@@ -15,3 +15,14 @@ llm:
   max_sentences: 5
   language: ko
 
+pricing:
+  currency: USD
+  monthly_hours: 730
+  ec2_hourly_prices:
+    t3.micro: 0.0104
+    t3.small: 0.0208
+    t3.medium: 0.0416
+    t3.large: 0.0832
+  ebs_gb_month_prices:
+    gp2: 0.10
+    gp3: 0.08

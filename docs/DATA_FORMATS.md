@@ -247,4 +247,48 @@ LLM에는 Finding 전체가 아니라 필요한 필드만 전달합니다.
 - 권고: 삭제 또는 스냅샷 전환 검토
 - 확인 필요: 스냅샷 백업 필요 여부 확인, 최근 복구 작업 또는 테스트 작업에서 사용되는지 확인, 태그의 서비스/소유자 정보 확인
 ```
+## 2026-06-09 finding 확장 필드
+
+기존 finding의 `type` 값은 유지합니다. 호환성과 명확성을 위해 동일한 의미의 `finding_type`도 함께 제공합니다.
+
+```json
+{
+  "resource_id": "vol-unused-001",
+  "resource_type": "EBS",
+  "type": "unused_ebs_volume",
+  "finding_type": "unused_ebs_volume",
+  "severity": "high",
+  "confidence_score": 91,
+  "action_priority": "immediate_review",
+  "reason_codes": ["AVAILABLE_VOLUME", "DETACHED_DAYS_EXCEEDED"],
+  "owner": "backend-team",
+  "project": "capstone",
+  "environment": "dev",
+  "service": "old-test-volume",
+  "safe_action": "snapshot_before_delete",
+  "recommended_steps": [
+    "미연결 상태와 소유자를 확인합니다.",
+    "삭제 전 스냅샷을 생성합니다.",
+    "검토 기간 동안 스냅샷을 보관합니다.",
+    "소유자 승인 후 볼륨 삭제 여부를 결정합니다."
+  ],
+  "estimated_current_monthly_cost": 8.0,
+  "estimated_recommended_monthly_cost": 0.0,
+  "estimated_monthly_savings": 8.0,
+  "currency": "USD",
+  "pricing_source": "local_config"
+}
+```
+
+EC2 finding에는 다음 필드가 추가될 수 있습니다.
+
+```json
+{
+  "current_instance_type": "t3.large",
+  "recommended_instance_type": "t3.medium",
+  "recommendation_basis": "CPU average and max usage are below thresholds"
+}
+```
+
+가격 정보가 없으면 비용 관련 필드는 `null`입니다.
 

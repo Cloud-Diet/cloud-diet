@@ -129,4 +129,37 @@ Slack 전송 예:
 4. `Settings` dataclass 생성
 
 환경변수가 우선입니다. 예를 들어 `rules.yaml`에 `analysis_days: 14`가 있어도 `.env`에 `ANALYSIS_DAYS=7`이 있으면 7일 기준으로 분석합니다.
+## 2026-06-09 아키텍처 업데이트
+
+Cloud Diet는 분석 책임과 설명 책임을 분리합니다.
+
+```text
+Collector / Sample
+        |
+        v
+Normalizer
+        |
+        v
+Rule Analyzer
+        |-- finding 생성
+        |-- confidence_score 계산
+        |-- action_priority 분류
+        |-- 태그 메타데이터 추출
+        |-- EC2 권장 타입 후보 결정
+        |
+        v
+Pricing Estimator
+        |-- rules.yaml 가격표 기반 예상 비용 계산
+        |
+        v
+LLM Recommender
+        |-- finding 설명문 생성
+        |-- 점수, 비용, 우선순위 생성 금지
+        |
+        v
+Reporter / Notifier
+        |-- JSON, Markdown, Console, Slack, Discord 출력
+```
+
+`app/analyzers/rule_analyzer.py`는 판단을 담당하고, `app/recommenders/llm_recommender.py`는 판단 결과를 설명합니다. 비용 계산은 `app/pricing/price_estimator.py`가 담당하며 LLM에 위임하지 않습니다.
 
