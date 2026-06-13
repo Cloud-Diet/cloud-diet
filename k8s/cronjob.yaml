@@ -1,0 +1,91 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cloud-diet
+  namespace: cloud-diet
+spec:
+  schedule: "0 9 * * *"
+  timeZone: "Asia/Seoul"
+
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+
+  jobTemplate:
+    spec:
+      backoffLimit: 1
+      ttlSecondsAfterFinished: 86400
+
+      template:
+        metadata:
+          labels:
+            app: cloud-diet
+        spec:
+          restartPolicy: Never
+
+          containers:
+            - name: cloud-diet
+              image: cloud-diet:0.1.0
+              imagePullPolicy: IfNotPresent
+
+              env:
+                - name: COLLECTOR_MODE
+                  value: "sample"
+
+                - name: SAMPLE_DATA_PATH
+                  value: "/app/configs/sample_resources.json"
+
+                - name: NOTIFIER
+                  value: "discord"
+
+                - name: LLM_ENABLED
+                  value: "true"
+
+                - name: OPENAI_MODEL
+                  value: "gpt-4o-mini"
+
+                - name: LLM_MAX_SENTENCES
+                  value: "3"
+
+                - name: MAX_FINDINGS_PER_REPORT
+                  value: "1"
+
+                - name: SEND_EMPTY_REPORT
+                  value: "true"
+
+                - name: ANALYSIS_DAYS
+                  value: "14"
+
+                - name: OUTPUT_DIR
+                  value: "/app/outputs"
+
+                - name: RULE_CONFIG_PATH
+                  value: "/app/configs/rules.yaml"
+
+                - name: DISCORD_WEBHOOK_URL
+                  valueFrom:
+                    secretKeyRef:
+                      name: cloud-diet-secrets
+                      key: DISCORD_WEBHOOK_URL
+
+                - name: OPENAI_API_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: cloud-diet-secrets
+                      key: OPENAI_API_KEY
+
+              resources:
+                requests:
+                  cpu: "50m"
+                  memory: "128Mi"
+                limits:
+                  cpu: "500m"
+                  memory: "512Mi"
+
+              volumeMounts:
+                - name: outputs
+                  mountPath: /app/outputs
+
+          volumes:
+            - name: outputs
+              emptyDir: {}

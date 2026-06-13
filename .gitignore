@@ -9,3 +9,13 @@ __pycache__/
 outputs/*
 !outputs/.gitkeep
 docs/Cloud_Diet_Docker_설계도.docx
+
+k8s/secret.yaml
+k8s/*-secret.yaml
+k8s/secrets/
+*.key
+
+cloud-diet-ai-test.log
+cloud-diet-debug.log
+outputs/*
+!outputs/.gitkeep
